@@ -1,0 +1,75 @@
+:root {
+    /* Mignight Violet */
+    --primary-bg-color: #2f3e46;
+    /* Dark Amethyst */
+    --primary-fg-color: #52796f;
+    /* Deep Purple */
+    --support-color-1: #cad2c5;
+    /* Midnight Variant 1*/
+    --support-color-2: #84a98c;
+    /* Midnight Variant 2 */
+    --support-color-3: #354f52;
+    /* Light blue */
+    --support-color-4: #90D5FF;
+    /* Font Color */
+    --primary-font-color: #edede9;
+    /* Selection */
+    --selection-color: #FF8559;
+}
+
+@font-face {
+    font-family: 'PixelFont';
+    src: url('assets/fonts/CozetteVector.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'PixelFont';
+    font-size: 30px;
+}
+
+#main {
+    /* background-color: #0f1116;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+    width: 100vw;
+    height: 100vh;
+    font-family: "PixelFont";
+}
+
+#hero {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#links {
+    width: 400px;
+    text-align: left;
+    font-size: x-large;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+#links a {
+    color: white;
+    text-decoration: none;
+    margin-top: 20px;
+    margin: 10px 0px;
+    border: white 1px solid;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+#links a:hover {
+    background-color: #1f1f1f;
+    cursor: pointer;
+}
+
+#header {
+    max-width: 1200px;
+}

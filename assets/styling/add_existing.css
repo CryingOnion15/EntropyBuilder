@@ -1,0 +1,65 @@
+#add-existing-window {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    background-color: var(--primary-bg-color);
+}
+
+#add-existing-form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    padding: 10px;
+    background-color: var(--support-color-3);
+}
+
+#add-existing-form div {
+    background-color: var(--primary-fg-color);
+    padding: 10px;
+}
+
+#add-existing-form label {
+    color: var(--primary-font-color);
+    margin-left: 5px
+}
+
+#add-existing-form input {
+    background-color: var(--support-color-1);
+}
+
+#add-existing-form input::file-selector-button {
+    background-color: var(--support-color-2);
+    color: var(--primary-font-color);
+    border: none;
+    padding: 5px 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+#add-existing-form input::file-selector-button:hover {
+    background-color: var(--support-color-3);
+}
+
+#add-existing-form input::file-selector-button:active {
+    background-color: var(--support-color-1);
+}
+
+#add-existing-form button {
+    border-style: outset;
+    border-color: var(--support-color-3);
+    border-width: 5px;
+    background-color: var(--primary-fg-color);
+    color: var(--primary-font-color);
+    transition: border-color 0.2s ease-in-out;
+}
+
+#add-existing-form button:hover {
+    border-color: var(--primary-fg-color);
+}
+
+#add-existing-form button:active {
+    border-color: var(--primary-fg-color);
+    border-style: inset;
+}
