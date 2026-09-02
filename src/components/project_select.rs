@@ -1,7 +1,7 @@
 use super::AddExistingModal;
 use super::CreateNewModal;
+use super::ProjectSelectModal;
 use crate::library::EntropyProject;
-use dioxus::desktop::muda::NativeIcon::Add;
 use dioxus::prelude::*;
 use directories::ProjectDirs;
 use serde_json;
@@ -115,14 +115,20 @@ pub fn ProjectSelect() -> Element {
                             show_create.set(false);
                         },
                     }
-                }
-                if show_add_existing() {
+                } else if show_add_existing() {
                     AddExistingModal {
                         on_submit: move |location| {
                             add_existing_project_to_hist(location);
                             projects.set(find_project_history());
                             show_add_existing.set(false);
                         },
+                    }
+                } else if let Some(index) = selected_project() {
+                    if let Some(project) = projects().get(index) {
+                        ProjectSelectModal {
+                            project_name: project[0].clone(),
+                            project_location: project[1].clone(),
+                        }
                     }
                 }
             }
