@@ -3,7 +3,11 @@ use dioxus::prelude::*;
 const PSM_CSS: Asset = asset!("assets/styling/project_select_modal.css");
 
 #[component]
-pub fn ProjectSelectModal(project_name: String, project_location: String) -> Element {
+pub fn ProjectSelectModal(
+    on_click: EventHandler,
+    project_name: String,
+    project_location: String,
+) -> Element {
     rsx! {
         document::Link { rel: "stylesheet", href: PSM_CSS }
 
@@ -15,7 +19,7 @@ pub fn ProjectSelectModal(project_name: String, project_location: String) -> Ele
                 div {
                     p { "Project Location: {project_location}" }
                 }
-                button { "Launch Project" }
+                button { onclick: move |_| on_click.call(()), "Launch Project" }
             }
         }
     }

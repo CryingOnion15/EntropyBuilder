@@ -1,23 +1,28 @@
-// The dioxus prelude contains a ton of common items used in dioxus apps. It's a good idea to import wherever you
-// need dioxus
+use components::Loader;
+use components::ProjectExplorer;
 use components::ProjectSelect;
 use dioxus::prelude::*;
+use library::EntropyProject;
 
-/// Define a components module that contains all shared components for our app.
+use crate::library::misc;
+
+/// Modules.
 mod components;
 mod library;
 
-// We can import assets in dioxus with the `asset!` macro. This macro takes a path to an asset relative to the crate root.
-// The macro returns an `Asset` type that will display as the path to the asset in the browser or a local path in desktop bundles.
-const FAVICON: Asset = asset!("/assets/favicon.ico");
-// The asset macro also minifies some assets like CSS and JS to make bundled smaller
+// Import the css files.
 const MAIN_CSS: Asset = asset!("/assets/styling/main.css");
 const TAILWIND_CSS: Asset = asset!("/assets/tailwind.css");
 const COZETTE: Asset = asset!("/assets/fonts/CozetteVector.ttf");
 
+// Application State
+#[derive(Clone)]
+pub struct GlobalState {
+    pub active_project: Option<EntropyProject>,
+    pub application_state: misc::AppState,
+}
+
 fn main() {
-    // The `launch` function is the main entry point for a dioxus app. It takes a component and renders it with the platform feature
-    // you have enabled
     dioxus::launch(App);
 }
 
@@ -27,22 +32,51 @@ fn main() {
 /// Components should be annotated with `#[component]` to support props, better error messages, and autocomplete
 #[component]
 fn App() -> Element {
-    // The `rsx!` macro lets us define HTML inside of rust. It expands to an Element with all of our HTML inside.
+    // App signals.
+    let global_state = use_signal(|| GlobalState {
+        active_project: None,
+        application_state: misc::AppState::SELECTION,
+    });
+    // let mut active_project = use_signal(|| None::<EntropyProject>);
+    // let mut application_state: Signal<misc::AppState> = use_signal(|| misc::AppState::SELECTION);
+
+    use_context_provider(|| global_state);
+
     rsx! {
         style {
             "@font-face {{
-            font-family: 'PixelFont';
-            src: url('{COZETTE}') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }}"
+                font-family: 'PixelFont';
+                src: url('{COZETTE}') format('truetype');
+                font-weight: normal;
+                font-style: normal;
+            }}"
         }
-        // In addition to element and text (which we will see later), rsx can contain other components. In this case,
-        // we are using the `document::Link` component to add a link to our favicon and main CSS file into the head of our app.
-        //document::Link { rel: "icon", href: FAVICON }
+
+        // Doc links
         document::Link { rel: "stylesheet", href: MAIN_CSS }
         document::Link { rel: "stylesheet", href: TAILWIND_CSS }
-        ProjectSelect {}
 
+        ApplicationView {}
+
+    }
+}
+
+#[component]
+fn ApplicationView() -> Element {
+    let global_state = use_context::<Signal<GlobalState>>();
+    let app_state = global_state.read().application_state;
+
+    match app_state {
+        misc::AppState::SELECTION => rsx! {
+            ProjectSelect {}
+        },
+
+        misc::AppState::LOADING => rsx! {
+            Loader {}
+        },
+
+        misc::AppState::OPENPROJECT => rsx! {
+            ProjectExplorer {}
+        },
     }
 }
