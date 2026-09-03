@@ -1,7 +1,9 @@
 use super::AddExistingModal;
 use super::CreateNewModal;
+use super::ProjectSelectModal;
+use crate::library::misc;
 use crate::library::EntropyProject;
-use dioxus::desktop::muda::NativeIcon::Add;
+use crate::GlobalState;
 use dioxus::prelude::*;
 use directories::ProjectDirs;
 use serde_json;
@@ -115,14 +117,27 @@ pub fn ProjectSelect() -> Element {
                             show_create.set(false);
                         },
                     }
-                }
-                if show_add_existing() {
+                } else if show_add_existing() {
                     AddExistingModal {
                         on_submit: move |location| {
                             add_existing_project_to_hist(location);
                             projects.set(find_project_history());
                             show_add_existing.set(false);
                         },
+                    }
+                } else if let Some(index) = selected_project() {
+                    if let Some(project) = projects().get(index).cloned() {
+                        ProjectSelectModal {
+                            on_click: {
+                                let location = project[1].clone();
+
+                                move |_| {
+                                    launch_selected_project(location.clone());
+                                }
+                            },
+                            project_name: project[0].clone(),
+                            project_location: project[1].clone(),
+                        }
                     }
                 }
             }
@@ -245,4 +260,15 @@ fn create_new_world_file(project_name: String, project_location: String) {
     let new_content = format!("{}{}", new_line, existing_content);
 
     fs::write(&proj_hist, new_content).expect("Could not write to project history.");
+}
+
+fn launch_selected_project(project_location: String) {
+    let mut global_state = use_context::<Signal<GlobalState>>();
+    global_state.write().application_state = misc::AppState::LOADING;
+
+    let mut project = EntropyProject::new();
+    project.load_from_build_file(&project_location);
+
+    global_state.write().active_project = Some(project);
+    global_state.write().application_state = misc::AppState::OPENPROJECT;
 }

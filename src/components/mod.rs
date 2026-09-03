@@ -9,3 +9,12 @@ pub use create_new::CreateNewModal;
 
 mod add_existing;
 pub use add_existing::AddExistingModal;
+
+mod project_select_modal;
+pub use project_select_modal::ProjectSelectModal;
+
+mod loader;
+pub use loader::Loader;
+
+mod project_explorer;
+pub use project_explorer::ProjectExplorer;
