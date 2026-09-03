@@ -1,6 +1,6 @@
-use super::AddExistingModal;
-use super::CreateNewModal;
-use super::ProjectSelectModal;
+use super::add_existing::AddExistingModal;
+use super::create_new::CreateNewModal;
+use super::project_select_modal::ProjectSelectModal;
 use crate::library::misc;
 use crate::library::EntropyProject;
 use crate::GlobalState;

@@ -1,6 +1,6 @@
-use components::Loader;
-use components::ProjectExplorer;
-use components::ProjectSelect;
+use components::loading::Loader;
+use components::project_editing::ProjectExplorer;
+use components::project_selection::ProjectSelect;
 use dioxus::prelude::*;
 use library::EntropyProject;
 
